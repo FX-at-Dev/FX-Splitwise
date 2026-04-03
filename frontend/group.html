@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Group - FX Splitwise</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <div class="page-wrap">
+      <div class="topbar">
+        <div>
+          <p class="eyebrow">Group workspace</p>
+          <h1 data-group-title>Group</h1>
+        </div>
+        <div class="toolbar">
+          <a class="button secondary" href="dashboard.html">Back to dashboard</a>
+        </div>
+      </div>
+
+      <p class="notice" data-group-notice></p>
+
+      <section class="content-grid">
+        <article class="surface-card stack">
+          <h2>Expense history</h2>
+          <div class="expense-list" data-expense-history></div>
+        </article>
+
+        <article class="surface-card stack">
+          <h2>Add expense</h2>
+          <form data-add-expense-form>
+            <label>
+              Title
+              <input name="title" type="text" required />
+            </label>
+            <label>
+              Amount
+              <input name="amount" type="number" min="0.01" step="0.01" required />
+            </label>
+            <label>
+              Split with members
+              <div class="mini-list" data-split-member-list></div>
+            </label>
+            <label>
+              Notes
+              <textarea class="notes-textarea" name="notes" placeholder="Optional notes"></textarea>
+            </label>
+            <button class="button primary" type="submit">Add expense</button>
+          </form>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="surface-card stack">
+          <h2>Members</h2>
+          <div class="mini-list" data-member-list></div>
+          <form data-add-member-form>
+            <label>
+              Add member by username
+              <input name="username" type="text" placeholder="username_here" required />
+            </label>
+            <button class="button primary" type="submit">Add member</button>
+          </form>
+        </article>
+
+        <article class="surface-card stack">
+          <h2>Balance summary</h2>
+          <div class="mini-list" data-summary-list></div>
+        </article>
+      </section>
+    </div>
+  </main>
+  <script src="js/api.js"></script>
+  <script src="js/group.js"></script>
+</body>
+</html>

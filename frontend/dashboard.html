@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - FX Splitwise</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <div class="page-wrap">
+      <div class="topbar">
+        <div>
+          <p class="eyebrow">Dashboard</p>
+          <h1>Welcome, <span data-profile-name>Member</span></h1>
+          <p class="muted">@<span data-profile-username>username</span></p>
+        </div>
+        <div class="toolbar">
+          <a class="button secondary" href="settlements.html">Settlements</a>
+          <a class="button secondary" href="group.html">Open Group</a>
+          <button class="button primary" data-logout type="button">Logout</button>
+        </div>
+      </div>
+
+      <p class="notice" data-dashboard-message></p>
+
+      <section class="card-grid">
+        <article class="stat-card">
+          <div class="stat-label">Total Balance</div>
+          <div class="stat-value" data-total-balance>0.00</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-label">You owe</div>
+          <div class="stat-value" data-you-owe>0.00</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-label">You are owed</div>
+          <div class="stat-value" data-you-are-owed>0.00</div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="surface-card stack">
+          <h2>Groups joined</h2>
+          <form data-create-group-form>
+            <label>
+              New group name
+              <input name="name" type="text" placeholder="Weekend trip" required />
+            </label>
+            <button class="button primary" type="submit">Create group</button>
+          </form>
+          <div class="group-list" data-groups-list></div>
+        </article>
+        <article class="surface-card stack">
+          <h2>Notifications</h2>
+          <div class="notification-list" data-notifications-list></div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="surface-card stack">
+          <h2>Personal expenses</h2>
+          <form data-add-personal-expense-form>
+            <label>
+              Title
+              <input name="title" type="text" placeholder="Groceries" required />
+            </label>
+            <label>
+              Amount
+              <input name="amount" type="number" min="0.01" step="0.01" required />
+            </label>
+            <label>
+              Notes
+              <input name="notes" type="text" placeholder="Optional note" />
+            </label>
+            <button class="button primary" type="submit">Add personal expense</button>
+          </form>
+          <div class="expense-list" data-personal-list></div>
+        </article>
+        <article class="surface-card stack">
+          <h2>Who owes whom (by group)</h2>
+          <div class="mini-list" data-group-owes-list></div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="surface-card stack">
+          <h2>Recent activity</h2>
+          <div class="activity-list" data-activity-list></div>
+        </article>
+        <article class="surface-card stack">
+          <h2>Recent settlements</h2>
+          <div class="mini-list" data-settlement-list></div>
+        </article>
+      </section>
+    </div>
+  </main>
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

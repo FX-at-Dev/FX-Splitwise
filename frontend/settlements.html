@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settlements - FX Splitwise</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <div class="page-wrap">
+      <div class="topbar">
+        <div>
+          <p class="eyebrow">Settlement history</p>
+          <h1>All settlements</h1>
+        </div>
+        <div class="toolbar">
+          <a class="button secondary" href="dashboard.html">Back to dashboard</a>
+        </div>
+      </div>
+
+      <p class="notice" data-settlement-message></p>
+
+      <section class="surface-card stack" style="margin-bottom: 16px;">
+        <h2>Record payment</h2>
+        <form data-create-settlement-form class="settlement-inline-form">
+          <div class="settlement-form-row">
+            <label>
+              Person you paid
+              <select name="toUsername" data-owed-members required>
+                <option value="">Loading members...</option>
+              </select>
+            </label>
+            <label>
+              Amount paid
+              <input name="amount" type="number" min="0.01" step="0.01" required />
+            </label>
+            <label>
+              Paid via
+              <select name="paymentMethod">
+                <option value="cash">Cash</option>
+                <option value="upi">UPI</option>
+              </select>
+            </label>
+            <div class="settlement-submit-wrap">
+              <button class="button primary" type="submit">Save payment</button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="surface-card stack">
+        <h2>Who owes whom</h2>
+        <div class="mini-list" data-settlement-list></div>
+      </section>
+    </div>
+  </main>
+  <script src="js/api.js"></script>
+  <script src="js/settlements.js"></script>
+</body>
+</html>
