@@ -21,6 +21,13 @@ const getUser = () => {
   return raw ? JSON.parse(raw) : null;
 };
 
+const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
+const shouldRetryResponse = (response) => {
+  const renderRouting = response.headers.get('x-render-routing') || '';
+  return response.status === 503 || renderRouting.includes('hibernate-wake-error');
+};
+
 const apiRequest = async (path, options = {}) => {
   const headers = {
     ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
@@ -32,10 +39,33 @@ const apiRequest = async (path, options = {}) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers,
-  });
+  const retryDelays = [0, 1200, 2500];
+  let response;
+  let lastNetworkError = null;
+
+  for (let attempt = 0; attempt < retryDelays.length; attempt += 1) {
+    if (retryDelays[attempt] > 0) {
+      await sleep(retryDelays[attempt]);
+    }
+
+    try {
+      response = await fetch(`${API_BASE_URL}${path}`, {
+        ...options,
+        headers,
+      });
+    } catch (error) {
+      lastNetworkError = error;
+      continue;
+    }
+
+    if (!shouldRetryResponse(response) || attempt === retryDelays.length - 1) {
+      break;
+    }
+  }
+
+  if (!response) {
+    throw new Error(lastNetworkError?.message || 'Network request failed');
+  }
 
   const contentType = response.headers.get('content-type') || '';
   const payload = contentType.includes('application/json') ? await response.json() : await response.text();

@@ -18,6 +18,8 @@ const app = express();
 
 connectDatabase();
 
+const normalizeOrigin = (value) => String(value || '').trim().replace(/\/+$/, '');
+
 const defaultAllowedOrigins = [
   env.clientUrl,
   'http://127.0.0.1:5500',
@@ -27,7 +29,7 @@ const defaultAllowedOrigins = [
 const allowedOrigins = new Set([
   ...defaultAllowedOrigins,
   ...(env.corsAllowedOrigins || []),
-].filter(Boolean));
+].filter(Boolean).map(normalizeOrigin));
 
 if (env.nodeEnv === 'production') {
   app.set('trust proxy', 1);
@@ -37,7 +39,9 @@ app.use(helmet());
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.has(origin)) {
+      const normalizedOrigin = normalizeOrigin(origin);
+
+      if (!origin || allowedOrigins.has(normalizedOrigin)) {
         return callback(null, true);
       }
 
