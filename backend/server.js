@@ -18,6 +18,17 @@ const app = express();
 
 connectDatabase();
 
+const defaultAllowedOrigins = [
+  env.clientUrl,
+  'http://127.0.0.1:5500',
+  'http://localhost:5500',
+];
+
+const allowedOrigins = new Set([
+  ...defaultAllowedOrigins,
+  ...(env.corsAllowedOrigins || []),
+].filter(Boolean));
+
 if (env.nodeEnv === 'production') {
   app.set('trust proxy', 1);
 }
@@ -25,11 +36,13 @@ if (env.nodeEnv === 'production') {
 app.use(helmet());
 app.use(
   cors({
-    origin: [
-      env.clientUrl,
-      "http://127.0.0.1:5500",
-      "http://localhost:5500"
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.has(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error('CORS origin not allowed'));
+    },
     credentials: true,
   })
 );

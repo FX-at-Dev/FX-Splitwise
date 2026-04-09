@@ -36,6 +36,17 @@ const toBool = (value) => {
   return value === 'true';
 };
 
+const toStringArray = (value) => {
+  if (!value) {
+    return [];
+  }
+
+  return String(value)
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+};
+
 /* Environment config */
 
 const env = Object.freeze({
@@ -60,6 +71,9 @@ const env = Object.freeze({
 
   clientUrl:
     process.env.CLIENT_URL || 'http://localhost:5500',
+
+  corsAllowedOrigins:
+    toStringArray(process.env.CORS_ALLOWED_ORIGINS),
 
   jsonLimit:
     process.env.EXPRESS_JSON_LIMIT || '1mb',

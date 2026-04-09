@@ -87,6 +87,11 @@ Resend notes:
 - You need a verified sending domain or sender address for production delivery.
 - In local development, the API still returns a reset link so you can test without email delivery.
 
+CORS notes:
+
+- `CLIENT_URL` should be your Netlify production URL.
+- Optional: add extra origins (preview URLs, custom domains) with `CORS_ALLOWED_ORIGINS` as comma-separated URLs.
+
 ### 3) Run Backend API
 
 From backend directory:
@@ -249,3 +254,36 @@ Recommended contribution areas:
 - Lock CLIENT_URL to deployed frontend origin
 - Run backend behind a process manager and HTTPS reverse proxy
 - Keep secrets out of version control
+
+## Deployment Checklist (Netlify + Render)
+
+1. Prepare backend env values (Render)
+   - `MONGODB_URI`
+   - `JWT_SECRET`
+   - `JWT_EXPIRES_IN=7d`
+   - `CLIENT_URL=https://<your-netlify-site>.netlify.app`
+   - `CORS_ALLOWED_ORIGINS=https://<your-netlify-site>.netlify.app,https://<your-custom-domain>` (optional)
+   - `RESEND_API_KEY`
+   - `RESEND_FROM_EMAIL`
+   - `RESEND_FROM_NAME=FX Splitwise`
+   - `PASSWORD_RESET_TOKEN_EXPIRY_MINUTES=30`
+   - `RESET_PASSWORD_PATH=/forgot-password.html`
+
+2. Deploy backend to Render
+   - Use `render.yaml` in repo root.
+   - Service root directory is `backend`.
+   - Health check endpoint: `/health`.
+
+3. Set frontend API base URL
+   - Edit `frontend/js/runtime-config.js`.
+   - Set `window.API_BASE_URL` to your Render API URL, for example `https://fx-splitwise-api.onrender.com`.
+
+4. Deploy frontend to Netlify
+   - Use `netlify.toml` in repo root (publish directory is `frontend`).
+   - Deploy from repository root.
+
+5. Post-deploy checks
+   - Open frontend login page on Netlify.
+   - Verify signup/login requests hit Render backend.
+   - Verify forgot password sends email via Resend.
+   - Verify reset link points to Netlify forgot-password page.
