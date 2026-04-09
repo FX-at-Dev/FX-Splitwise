@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="fxBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+    <linearGradient id="fxText" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#33d6a6"/>
+      <stop offset="100%" stop-color="#2dd4bf"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#fxBg)"/>
+  <text
+    x="50%"
+    y="52%"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="Trebuchet MS, Segoe UI, Arial, sans-serif"
+    font-size="28"
+    font-weight="700"
+    fill="url(#fxText)"
+  >FX</text>
+</svg>
