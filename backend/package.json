@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "migrate:usernames": "node scripts/migrateUsernames.js"
+    "migrate:usernames": "node scripts/migrateUsernames.js",
+    "import:expenses": "node scripts/importExpensesWorkbook.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -20,7 +21,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^7.1.1",
     "mongoose": "^8.16.5",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

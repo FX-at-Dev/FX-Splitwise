@@ -304,6 +304,28 @@ textarea:focus {
   color: var(--muted);
 }
 
+.notice.success {
+  color: var(--accent);
+}
+
+.auth-link-row {
+  margin: 6px 0 0;
+}
+
+.auth-link-row a {
+  color: #b4c8e2;
+  text-decoration: underline;
+}
+
+.auth-divider {
+  margin: 8px 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
 .hidden {
   display: none !important;
 }

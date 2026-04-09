@@ -26,6 +26,7 @@ It includes a static frontend and a Node.js + Express + MongoDB backend with JWT
 ## Key Features
 
 - JWT auth with signup/login/logout
+- Forgot password + reset password token flow
 - Group creation and member management
    - add member by username
    - remove member when their group balance is zero
@@ -73,7 +74,18 @@ AUTH_RATE_LIMIT_WINDOW_MS=900000
 AUTH_RATE_LIMIT_MAX_REQUESTS=20
 EXPRESS_JSON_LIMIT=1mb
 JWT_EXPIRES_IN=7d
+PASSWORD_RESET_TOKEN_EXPIRY_MINUTES=30
+RESET_PASSWORD_PATH=/forgot-password.html
+RESEND_API_KEY=your_resend_api_key
+RESEND_FROM_EMAIL=onboarding@your-domain.com
+RESEND_FROM_NAME=FX Splitwise
 ```
+
+Resend notes:
+
+- Free plan: 3,000 emails/month and 100 emails/day.
+- You need a verified sending domain or sender address for production delivery.
+- In local development, the API still returns a reset link so you can test without email delivery.
 
 ### 3) Run Backend API
 
@@ -120,6 +132,8 @@ Auth:
 - POST /signup
 - POST /login
 - POST /logout
+- POST /password/forgot
+- POST /password/reset
 
 User:
 - GET /profile
@@ -147,6 +161,12 @@ Other:
 - GET /notifications
 - GET /activity/logs
 
+Password reset notes:
+
+- `POST /password/forgot` always returns a generic message to avoid account enumeration.
+- The backend sends the reset email through Resend when `RESEND_API_KEY` and `RESEND_FROM_EMAIL` are set.
+- Open `frontend/forgot-password.html` to request and complete reset.
+
 ## Scripts
 
 From backend directory:
@@ -155,7 +175,43 @@ From backend directory:
 npm run dev                # Start with nodemon
 npm start                  # Start with node
 npm run migrate:usernames  # Backfill usernames for older users
+npm run import:expenses -- --file ../expenses.xlsx --sheet Expenses
 ```
+
+## Bulk Import From Excel
+
+You can import past transactions from an Excel workbook (`.xlsx`) using the backend script.
+
+Run from backend directory:
+
+```bash
+npm run import:expenses -- --file ../your-workbook.xlsx --sheet Expenses
+```
+
+Validate before writing anything:
+
+```bash
+npm run import:expenses -- --file ../your-workbook.xlsx --sheet Expenses --dry-run
+```
+
+Required worksheet columns:
+
+- `title`
+- `amount`
+- `paidByUsername`
+
+Optional columns:
+
+- `groupName` (must match existing group name)
+- `memberUsernames` (comma-separated usernames for split members)
+- `notes`
+- `date`
+
+Notes:
+
+- If `groupName` is empty, expense is imported as personal expense.
+- If `memberUsernames` is empty for group rows, all group members are used.
+- Import currently creates equal splits.
 
 ## Where To Get Help
 

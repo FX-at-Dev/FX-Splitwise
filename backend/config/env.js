@@ -76,6 +76,21 @@ const env = Object.freeze({
   authRateLimitMaxRequests:
     toNumber(process.env.AUTH_RATE_LIMIT_MAX_REQUESTS, 20),
 
+  resendApiKey:
+    process.env.RESEND_API_KEY || '',
+
+  resendFromEmail:
+    process.env.RESEND_FROM_EMAIL || '',
+
+  resendFromName:
+    process.env.RESEND_FROM_NAME || 'FX Splitwise',
+
+  passwordResetTokenExpiryMinutes:
+    toNumber(process.env.PASSWORD_RESET_TOKEN_EXPIRY_MINUTES, 30),
+
+  resetPasswordPath:
+    process.env.RESET_PASSWORD_PATH || '/forgot-password.html',
+
 });
 
 module.exports = env;
